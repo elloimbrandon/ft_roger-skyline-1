@@ -1,0 +1,29 @@
+						**ROGER SKYLINE NOTES**
+
+-needs to have a (static IP) meaning an ip address that was manually configured for a device.
+-(netmask) /30 - 255.255.255.252
+-change default port of the SSH service (one i pick).
+-SSH has to be done with public keys. (SSH root access is not allowed directly, but user can be root)
+-set rules for the firewall on ssh server with outside VM services only
+-set a DOS (denial of service attack) protection on open ports of your VM
+-set up protection against scans on your VM's open ports
+-STOP the services you dont need for this project
+
+								**SCRIPTS**
+
+-create a script the updates all source packages and logs the process in a file named /var/log/update_script.log.
+-create a scheduled task for this script once a week at 4AM and everytime the machine reboots
+-create a script that monitors changes of the /etc/crontab file and sends and email to root user if it has been modified.
+-create a scheuled script task every day at midnight.
+
+								**OPTIONAL**
+
+-create a web server that is avalible on the VM's IP or a host. ex. (init.login.com)
+-The only web server packages you can choose from are Nginx or Apache.
+-create a self-signed SSL on all of your services
+
+							**OPTIONAL/APPLICATION**
+
+-create either a login page or display site.
+-create this web-app in any language you want.
+-create a functional solution for deployment automation
