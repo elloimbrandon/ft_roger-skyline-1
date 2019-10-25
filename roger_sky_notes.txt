@@ -1,5 +1,8 @@
 						**ROGER SKYLINE NOTES**
 
+							**MANDATORY PART**
+-run a Virtual Machine
+-a disk size of 8GB as well a 42.GB partition (will allow space for package updates)
 -needs to have a (static IP) meaning an ip address that was manually configured for a device.
 -(netmask) /30 - 255.255.255.252
 -change default port of the SSH service (one i pick).
