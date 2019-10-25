@@ -7,7 +7,7 @@
 -(netmask) /30 - 255.255.255.252
 -change default port of the SSH service (one i pick).
 -SSH has to be done with public keys. (SSH root access is not allowed directly, but user can be root)
--set rules for the firewall on ssh server with outside VM services only
+-set rules for the firewall on ssh server with outside VM services only(no iptables)
 -set a DOS (denial of service attack) protection on open ports of your VM
 -set up protection against scans on your VM's open ports
 -STOP the services you dont need for this project
@@ -27,3 +27,7 @@
 -create either a login page or display site.
 -create this web-app in any language you want.
 -create a functional solution for deployment automation
+
+								**START**
+-debian 9 set up (https://www.digitalocean.com/community/tutorials/initial-server-setup-with-debian-9)
+-debian 9 server set up(https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-debian-9)
