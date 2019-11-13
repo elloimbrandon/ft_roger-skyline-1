@@ -28,7 +28,12 @@
 -create this web-app in any language you want.
 -create a functional solution for deployment automation
 
-								**START**
+							**Debain Stretch info**
+-roger1 login: brandon
+-user password: sports
+-root password: sports
+
+								**General Info & links**
 -debain 9 machine set up stretch 9 (https://www.tecmint.com/installation-of-debian-9-minimal-server/)
 -debian 9 set up 1 (https://www.digitalocean.com/community/tutorials/initial-server-setup-with-debian-9)
 -debian 9 server set up 2 (https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-debian-9)
