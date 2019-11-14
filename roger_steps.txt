@@ -1,0 +1,20 @@
+							**Roger-Skyline-1 Steps**
+1. follow steps to set up debain 9 stretch virtual image ide (https://www.tecmint.com/installation-of-debian-9-minimal-server/)
+2. use debian download in folder for disk image (Desktop/debian versions/debian-9.9.0-amd64-netinst.iso)
+3. machine roger1 login: brandon
+4. user password: sports (same for root)
+5. add current user(brandon) to sudo group to use commands outside of root
+6. run ifconfig && route to see ip addr, gateway, and broadcas
+7. to change our netmask we will use Netplan to configure our network and have a static ip address (apt-get install netplan).
+8. Netplan uses YAML description files (ex..01-netcfg.yaml) to configure network interfaces and generate necessary config options
+
+								**Command Steps**
+1. ->su root (access as root user)
+2. ->apt update && apt upgrade
+3. ->apt install sudo && apt install vim && apt install net-tools &&  apt update (use of sudo command, vim, ifconfig)
+4. ->adduser brandon sudo
+5. ->apt update
+6. ->reboot (so user can be added to sudoers file)
+7. ->sudo apt-get -y install netplan && apt-get -y update  
+8. ->sudo systemctl restart networking (fresh restart network for shiz and gigs)
+9. ->
