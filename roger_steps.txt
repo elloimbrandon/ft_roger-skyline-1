@@ -11,10 +11,9 @@
 								**Command Steps**
 1. ->su root (access as root user)
 2. ->apt update && apt upgrade
-3. ->apt install sudo && apt install vim && apt install net-tools &&  apt update (use of sudo command, vim, ifconfig)
+3. ->apt install sudo && apt install vim && apt install net-tools && apt install netplan && apt update (use of sudo command, vim, ifconfig, and netplan)
 4. ->adduser brandon sudo
 5. ->apt update
 6. ->reboot (so user can be added to sudoers file)
-7. ->sudo apt-get -y install netplan && apt-get -y update  
-8. ->sudo systemctl restart networking (fresh restart network for shiz and gigs)
+8. ->sudo systemctl restart networking (fresh restart network for shiz and gigs) **messes shit up as of now**
 9. ->

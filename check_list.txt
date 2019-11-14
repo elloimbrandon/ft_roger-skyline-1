@@ -1,0 +1,4 @@
+							**things i need to try or do**
+- try debugging the whole netplan bullshit with
+		- journalctl --no-pager -lu systemd-networkd 
+		- networkctl
