@@ -2,4 +2,4 @@
 NETPLAN
 	- netplan try
 	- netplan apply
-	- netstat (shows the port in use by netplan)
+	- netstat -pnlt | grep ':2983' (shows the port in use by netplan)
