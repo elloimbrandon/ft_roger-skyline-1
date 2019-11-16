@@ -1,6 +1,0 @@
-							**things i need to try or do**
-- try debugging the whole netplan bullshit with
-		- journalctl --no-pager -lu systemd-networkd 
-		- networkctl
-- look at this fucking website at the bottom jez
-	- https://askubuntu.com/questions/704035/no-eth0-listed-in-ifconfig-a-only-enp0s3-and-lo
