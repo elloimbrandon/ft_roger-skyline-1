@@ -1,5 +1,0 @@
-						**Roger Skyline Commands Used**
-NETPLAN
-	- netplan try
-	- netplan apply
-	- netstat -pnlt | grep ':2983' (shows the port in use by netplan)
