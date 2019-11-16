@@ -6,7 +6,7 @@
 4. machine roger1 login: brandon
 5. user password: sports (same for root)
 6. add current user(brandon) to sudo group to use commands outside of root
-7. go to /etc/network/interfaces and add these lines for setting static NAT ip address
+7. go to /etc/network/interfaces and add these lines for network interface changes
 	** #NAT Network
 	   allow-hotplug enp0s8
 	   iface enp0s8 inet static
