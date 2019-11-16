@@ -10,21 +10,31 @@
 	** #NAT Network
 	   allow-hotplug enp0s8
 	   iface enp0s8 inet static
-	   address 192.16856.3
+	   address 192.168.56.3
 	   netmask 255.255.255.252
 	**
-	bring interface down (ifdown enp0s3, ifdown enp0s8)
-	bring interface up (ifup enp0s3, ifup enp0s8)
-	possibly just restart network interface daemon via (service networking restart)
-8.
+	restart network interface daemon via (sudo service networking restart)
+	bring interface down (sudo ifdown enp0s3, sudo ifdown enp0s8)
+	bring interface up (sudo ifup enp0s3, sudo ifup enp0s8)
+	lo should be good but if not (sudo ifup lo)
+8. go to /etc/ssh/sshd_config and unhash as well as changes these lines
+	** Port 58342
+	   PermitRootLogin no
+	   PasswordAuthentification yes
+	   PubkeyAuthentication yes
+	**
+	restart SSH (sudo service sshd restart)
+
+9.
 	
 
 								**Command Steps**
 1. ->su root (access as root user)
 2. ->apt update && apt upgrade
-3. ->apt install sudo && apt install vim && apt install net-tools && apt update (use of sudo command, vim, ifconfig)
+3. ->apt install sudo && apt install vim && apt install net-tools && apt install ssh && apt update (use of sudo, vim, ifconfig, ssh)
 4. ->adduser brandon sudo
 6. ->reboot (so user can be added to sudoers file)
-8. ->(roger-skyline-1 step 7)
+8. ->see (roger-skyline-1 step 7)
 9. ->sudo ip a (to see if network interface was applied)
-10.->
+10.->see (roger-skyline-1 step 8)
+11.->
