@@ -1,4 +1,5 @@
-						**ROGER SKYLINE NOTES**
+							**ROGER SKYLINE NOTES**
+						(learn how to configure a web server)
 
 							**MANDATORY PART**
 -run a Virtual Machine
