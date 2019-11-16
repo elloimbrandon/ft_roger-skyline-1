@@ -1,0 +1,4 @@
+						**Random Used Commands & Their Usage**
+
+- service networking restart (apply network interface changes daemon)
+
