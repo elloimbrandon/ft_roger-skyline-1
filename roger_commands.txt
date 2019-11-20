@@ -6,17 +6,19 @@
 - (allow-hotplug) is basically and updated version of (auto) in network interface file
 - (for setting up static NAT ip part) enp0s8 is innet always, enp0s9 is the host-only
 - (for setting /30) subnet mask is /30 or 255.255.255.252 which means only two bits(32 -30) are available for host address and valid host will be2^2 - 2 = 2. /30 subnet is used for point to point link for e.g.when a router is connected to another router.
+- (for checking ssh unable to connect issues) ssh -vvv account@your-ip / ssh -vvv brandon@roger1 
+- (check status of ssh server) sudo systemctl status ssh
+- (if ssh server down) sudo systemctl start ssh
+- (reload ssh server) sudo systemctl reload sshd.service
+- (remove all sshd shit) sudo apt-get purge openssh-server
+- (login as root) ssh root@10.113.100.38 -p 58342 / ssh brandon@10.113.100.38 -p 58342 *make sure passwd auth is yes*
+- (copy public key to user) ssh-copy-id brandon@10.113.100.38 -p 58342
 
 ssh-keygen
-created directory '/root/.ssh'.
-passphrase = sports
-Identification saved in '/root/.ssh'
-public key saved in '/root/.ssh/id_rsa/pub.'
-key fingerprint is : SHA256:WgIB+EQwm9845c+YNL0o02a6FznPhBCtse91gmsqIyw root@roger1
 
 cat ~ / .ssh / id_rsa.pub and copy the entire contents.
 
-ssh root@roger1 -p 58342
+ssh root@roger1 -p 58342 / ssh brandon@roger1 -p 58342
 
 mkdir .ssh
 
@@ -33,3 +35,9 @@ sudo service ssh restart
 #The connection is now password-free with PublicKeys.
 
 #You will find your VM in the .ssh / known_hosts file.
+
+*********Random
+	root@192.168.56.3 -p 58342
+	sudo ssh -i /.ssh/authorized_keys brandon@roger1 -p 58342
+	(host) ssh -p 58342 brandon@10.113.100.38
+	(real host) e1z3r7p23@10.113.7.23
