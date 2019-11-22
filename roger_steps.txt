@@ -36,15 +36,20 @@
    	PasswordAuthentification no
    **
    (restart ssh server to update sshd) service ssh restart
-   (now connect to ssh server without password) ssh -p 58342 brandon@10.113.100.38
+   (now connect to ssh server without password) ssh -p 58342 brandon@10.113.100.38 
+   (check to see if you connected successfully) sudo systemctl status ssh
    *go to /home/brandon/.ssh and check to see if know_hosts file contains your vm*
+   -the user(brandon) will have sudo access vi ssh and not root
+								
 								**Command Steps**
 1. ->su root (access as root user)
 2. ->apt update && apt upgrade
 3. ->apt install sudo && apt install vim && apt install net-tools && apt install ssh && apt install open-ssh && apt update (use of sudo, vim, ifconfig, ssh)
 4. ->adduser brandon sudo
+5. ->exit (leaving root to user)
 6. ->reboot (so user can be added to sudoers file)
 8. ->see (roger-skyline-1 step 7)
 9. ->sudo ip a (to see if network interface was applied)
 10.->see (roger-skyline-1 step 8)
-11.->see (roger-skyline-1 step 8)
+11.->see (roger-skyline-1 step 9)
+12.
