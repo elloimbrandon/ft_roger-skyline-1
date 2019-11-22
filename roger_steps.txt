@@ -17,7 +17,6 @@
 	restart network interface daemon via (sudo service networking restart)
 	bring interface down (sudo ifdown enp0s3, sudo ifdown enp0s8)
 	bring interface up (sudo ifup enp0s3, sudo ifup enp0s8)
-	lo should be good but if not (sudo ifup lo)
 8. go to /etc/ssh/sshd_config and unhash as well as changes these lines
 	** Port 58342
 	   PermitRootLogin no
@@ -25,17 +24,27 @@
 	   PubkeyAuthentication yes
 	**
 	restart SSH (sudo service sshd restart)
-	*if you're using another mac besides the lab enable remote login*
-
-9.
-
+9. (as user not root generate keys) ssh-keygen *should create .ssh directory /home/brandon/.ssh*
+   (store public key(id_rsa.pub) in .ssh directory) cp id_rsa.pub authorized_keys
+   *connecting via ssh with public keys require certain permissions for directorys and files below*
+   - (home directory should not be writeable) chmod go-w /home/brandon
+   - (ssh directory needs 700 permissions) chmod 700 /home/brandon/.ssh
+   - (authorized_keys needs 644 permissions) chmod 644 /home/brandon/.ssh/authorized_keys
+   - (if users home directory doesnt contain the right .ssh directory) usermod -d /home/brandon brandon
+   go to /etc/ssh/sshd_config change line
+   **
+   	PasswordAuthentification no
+   **
+   (restart ssh server to update sshd) service ssh restart
+   (now connect to ssh server without password) ssh -p 58342 brandon@10.113.100.38
+   *go to /home/brandon/.ssh and check to see if know_hosts file contains your vm*
 								**Command Steps**
 1. ->su root (access as root user)
 2. ->apt update && apt upgrade
-3. ->apt install sudo && apt install vim && apt install net-tools && apt install ssh && apt update (use of sudo, vim, ifconfig, ssh)
+3. ->apt install sudo && apt install vim && apt install net-tools && apt install ssh && apt install open-ssh && apt update (use of sudo, vim, ifconfig, ssh)
 4. ->adduser brandon sudo
 6. ->reboot (so user can be added to sudoers file)
 8. ->see (roger-skyline-1 step 7)
 9. ->sudo ip a (to see if network interface was applied)
 10.->see (roger-skyline-1 step 8)
-11.->
+11.->see (roger-skyline-1 step 8)

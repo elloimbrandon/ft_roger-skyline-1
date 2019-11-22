@@ -39,7 +39,11 @@ sudo service ssh restart
 #You will find your VM in the .ssh / known_hosts file.
 
 *********Random
-	root@192.168.56.3 -p 58342
-	sudo ssh -i /.ssh/authorized_keys brandon@roger1 -p 58342
-	(host) ssh -p 58342 brandon@10.113.100.38
-	(real host) e1z3r7p23@10.113.7.23
+	(exact keyfile) ssh -i /nfs/2018/b/brfeltz/.ssh/authorized_keys brandon@10.113.100.38 -p 58342
+	(current ip and port connected ssh) brandon from 10.113.5.16 port 49581 ssh2
+
+*****SSH KEY INFO
+-The private key is kept within a restricted directory. The SSH client will not recognize private keys that are not kept in restricted directories. The key itself must also have restricted permissions (read and write only available for the owner). This means that other users on the system cannot snoop.
+- (permissions for .ssh directory) chmod 700/755 .ssh
+- (permissions for public key file) chmod 644 authorized_keys
+- (home directory?) chmod 755/700 brandon 
