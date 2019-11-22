@@ -13,6 +13,8 @@
 - (remove all sshd shit) sudo apt-get purge openssh-server
 - (login as root) ssh root@10.113.100.38 -p 58342 / ssh brandon@10.113.100.38 -p 58342 *make sure passwd auth is yes*
 - (copy public key to user) ssh-copy-id brandon@10.113.100.38 -p 58342
+- (check what ip or port your ssh server is using) netstat -tapen
+- (check routing table) sudo route
 
 ssh-keygen
 

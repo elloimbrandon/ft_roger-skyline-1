@@ -13,6 +13,7 @@
 	   address 192.168.56.3
 	   netmask 255.255.255.252
 	**
+	(possibly reboot) / *Make sure network adapter2 is active*
 	restart network interface daemon via (sudo service networking restart)
 	bring interface down (sudo ifdown enp0s3, sudo ifdown enp0s8)
 	bring interface up (sudo ifup enp0s3, sudo ifup enp0s8)
@@ -24,9 +25,9 @@
 	   PubkeyAuthentication yes
 	**
 	restart SSH (sudo service sshd restart)
+	*if you're using another mac besides the lab enable remote login*
 
 9.
-	
 
 								**Command Steps**
 1. ->su root (access as root user)
