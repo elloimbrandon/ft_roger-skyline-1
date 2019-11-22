@@ -36,7 +36,8 @@
    	PasswordAuthentification no
    **
    (restart ssh server to update sshd) service ssh restart
-   (now connect to ssh server without password) ssh -p 58342 brandon@10.113.100.38 
+   (we're going to connect to the static ip) *192.168.56.3*
+   (now connect to ssh server without password) ssh -p 58342 brandon@192.168.56.3 
    (check to see if you connected successfully) sudo systemctl status ssh
    *go to /home/brandon/.ssh and check to see if know_hosts file contains your vm*
    -the user(brandon) will have sudo access vi ssh and not root
