@@ -27,6 +27,7 @@
 	restart SSH (sudo service sshd restart)
 9. (as user not root generate keys) ssh-keygen *should create .ssh directory /home/brandon/.ssh*
    (store public key(id_rsa.pub) in .ssh directory) sudo cp id_rsa.pub authorized_keys
+   (alternativly you can try) cat ~/.ssh/id_rsa.pub | ssh brandon@192.168.56.3 "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >>  ~/.ssh/authorized_keys"
    *connecting via ssh with public keys require certain permissions for directorys and files below*
    - (home directory should not be writeable) sudo chmod go-w /home/brandon
    - (ssh directory needs 700 permissions) sudo chmod 700 /home/brandon/.ssh
