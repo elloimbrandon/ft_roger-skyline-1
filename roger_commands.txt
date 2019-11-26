@@ -15,6 +15,14 @@
 - (copy public key to user) ssh-copy-id brandon@10.113.100.38 -p 58342
 - (check what ip or port your ssh server is using) netstat -tapen
 - (check routing table) sudo route
+- (check firewall INPUT, FORWARD, OUTPUT) iptables -L -n
+*****MOVED FROM STEPS/ DONT NEED?*****
+   - (store public key(id_rsa.pub) in .ssh directory) sudo cp id_rsa.pub authorized_keys
+ *connecting via ssh with public keys require certain permissions for directorys and files below*
+   - (home directory should not be writeable) sudo chmod go-w /home/brandon
+   - (ssh directory needs 700 permissions) sudo chmod 700 /home/brandon/.ssh
+   - (authorized_keys needs 644 permissions) sudo chmod 644 /home/brandon/.ssh/authorized_keys
+   - (if users home directory doesnt contain the right .ssh directory) sudo usermod -d /home/brandon brandon
 
 ssh-keygen
 

@@ -3,7 +3,7 @@
 2. use debian download in folder for disk image (Desktop/debian versions/debian-9.9.0-amd64-netinst.iso)
 3  set network settings in virtualbox for your machine to Adapter1 to : bridged adapter
    set Adapter 2 to : NAT
-   (if your in a dif cluster you might need to change to *host only adapter*/ instead of bridged adapter)
+   (if your in a dif cluster you might need to change to *host only adapter*/ instead of bridged adapter*)
 4. machine roger1 login: brandon
 5. user password: sports (same for root)
 6. add current user(brandon) to sudo group to use commands outside of root
@@ -18,6 +18,8 @@
 	restart network interface daemon via (sudo service networking restart)
 	bring interface down (sudo ifdown enp0s3, sudo ifdown enp0s8)
 	bring interface up (sudo ifup enp0s3, sudo ifup enp0s8)
+	---if ipv6 doesnt work with ufw stuff switch netmask to ipv4, replace 255.255.255.252 with netmask 24---
+	---then switch /etc/default/ufw file to IPV6=yes---
 8. go to /etc/ssh/sshd_config and unhash as well as changes these lines
 	** Port 58342
 	   PermitRootLogin no
@@ -25,30 +27,108 @@
 	   PubkeyAuthentication yes
 	**
 	restart SSH (sudo service sshd restart)
-9. (as user not root generate keys) ssh-keygen *should create .ssh directory /home/brandon/.ssh*
-   (store public key(id_rsa.pub) in .ssh directory) sudo cp id_rsa.pub authorized_keys
-   (alternativly you can try) cat ~/.ssh/id_rsa.pub | ssh brandon@192.168.56.3 "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >>  ~/.ssh/authorized_keys"
-   *connecting via ssh with public keys require certain permissions for directorys and files below*
-   - (home directory should not be writeable) sudo chmod go-w /home/brandon
-   - (ssh directory needs 700 permissions) sudo chmod 700 /home/brandon/.ssh
-   - (authorized_keys needs 644 permissions) sudo chmod 644 /home/brandon/.ssh/authorized_keys
-   - (if users home directory doesnt contain the right .ssh directory) sudo usermod -d /home/brandon brandon
+9. *before we change PasswordAuthentification to no we ssh into brandon@192.168.56.3 port 58342 to generate keys*
+   (as user not root generate keys) ssh-keygen *should create .ssh directory /home/brandon/.ssh*
+   (copy public key) cat ~/.ssh/id_rsa.pub | ssh -p 58342 brandon@10.113.100.38 "chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"
+   *exit server with exit*
    go to /etc/ssh/sshd_config change line
    **
    	PasswordAuthentification no
    **
    (restart ssh server to update sshd) service ssh restart
-   (we're going to connect to the static ip) *192.168.56.3*
+   (we're going to connect to the static ip) *192.168.56.3* port 58342 
    (now connect to ssh server without password) ssh -p 58342 brandon@192.168.56.3 
    (check to see if you connected successfully) sudo systemctl status ssh
    *go to /home/brandon/.ssh and check to see if know_hosts file contains your vm*
-   -the user(brandon) will have sudo access vi ssh and not root
-10. 
-								
+   -this user will have sudo access vi ssh and not root
+   **only try to connect in /home/brandon as user not root**
+10. as user not root while on ssh server brandon@192.168.56.3 port
+	**execute commands below to set rules for your firewall**
+	-sudo ufw default deny incoming (deny incoming packets)
+	-sudo ufw default allow outgoing (allow outgoing packets)
+	-sudo ufw allow 443 (allow packets for https)
+	-sudo ufw allow 80/tcp (allow packts for tcp/http)
+	-sudo ufw allow 25 (allow SMTP/Simple Mail Transfer Protocol)
+	-sudo ufw allow 58342 (allow my port ssh)
+	-sudo ufw allow from 10.113.100.38 to any port 58342 proto tcp (allow connect, good measure)
+	-sudo systemctl start ufw (start ufw script)
+	-sudo systemctl enable ufw (enable ufw script)
+	-sudo ufw enable (get ufw running with the applied rules) **(to disable firewall rules) ufw disable**
+	-sudo ufw status (check if rules were set correctly and ufw is running)
+	-sudo exit
+	-sudo reboot (to make absolute sure ufw is running with the set rules)
+	**if you need to delete a rule use (sudo ufw delete RULE)**
+11. since we already installed fail2ban we should be good! if not hard enable it while in *192.168.56.3*
+	-sudo systemctl start fail2ban
+	-sudo systemctl enable fail2ban
+	-sudo fail2ban restart (restart fail2ban if changes were made to config or local files)
+	-*outside server* sudo ping 192.168.56.3 -l 600 -n 100(flood ping server to test it with 100 packets with 600 data)
+	*might need to update rules for web server stuff later in project in /etc/fail2ban jail.local*
+12. We're going to be using psad(Port Scan Attacks Detector) to detect and or stop port scan attacks
+	***after installed***
+	-(rsyslog configuration(logging)) go to /etc/rsyslog.conf file and add this line
+	  **
+	  	kern.info |/var/lib/psad/psadfifo
+	  **
+	-(restart rsyslog service) sudo /etc/init.d/rsyslog restart
+	-(psad configuration(program setup)) go to /etc/psad/psad.conf and change lines
+	**
+	   HOSTNAME 	roger1;
+	   ENABLE_AUTO_IDS		Y;
+	   IPTABLES_BLOCK_METHOD   Y;
+	**
+	-(start psad service) sudo /etc/init.d/psad restart
+	***update firewall rules for logging with following commands***
+	-sudo iptables -A INPUT -j LOG
+	-sudo iptables -A FORWARD -j LOG
+	-sudo ip6tables -A INPUT -j LOG
+	-sudo ip6tables -A FORWARD -j LOG
+	***update and reload psad**
+	-sudo psad -R (restart)
+	-sudo psad --sig-update (update)
+	-sudo psad -H (send psad daemons a signal to re-read config files)
+	-(after tested, run command to check logs) sudo psad -S
+	*the port scan report will be stored in /var/log/psad/status.out file*
+	**if nmap isnt on host machine install for testing**
+	****ON HOST MACHINE****
+	-nmap -Pn 10.113.100.38 (testing port scanning)
+	****ON VM****
+	-sudo psad --fw-rm-block-ip 10.113.7.23 (allows host ip to scan ports)	
+	-sudo psad --fw-rm-block-ip 10.113.100.38 (allows vim ip to scan ports)
+	-(use commands for update and reload to restart psad config)
+13. run the command (sudo service --status-all)
+	(we're supposed to stop services not used, but as a debian server setup currently we need all)
+	-cron (time-based job scheduler)
+	-kmod (kernel modules)
+	-hwclock.sh (hardware clock)
+	-exim4 (message transfer, uniox system internet connection)
+	-udev (device file system)
+	-procps (displays info about users on machine)
+	-dbus (system daemon about current session)
+	-resolvconf (needed for configuring other files ex. networking and interface)
+14. in /root/scripts/update_script.sh paste these lines
+	**
+		#!/bin/bash
+		apt update -y >> /var/log/update_script.log
+		apt upgrade -y >> /var/log/update_script.log
+	**
+	(give owner, group, and public to execute script but only the owner can modify the script)
+	-chmod 755 /root/scripts/update_script.sh
+	-chown root /root/scripts/update_script.sh (make root the owner of the script)
+	-crontab -e (setting time to execute script)
+	-pick witch file editor you want to use(ex.2) vim.basic
+	(insert these lines into file)
+	**
+		0 4 * * mon root /root/scripts/update_script.sh
+		@reboot root /root/scripts/update_script.sh
+	**
+	(exit file)
+15.
+
 								**Command Steps**
-1. ->su root (access as root user)
+1. ->su root
 2. ->apt update && apt upgrade
-3. ->apt install sudo && apt install vim && apt install net-tools && apt install ssh && apt install open-ssh && apt install fail2ban && apt update (use of sudo, vim, ifconfig, ssh)
+3. ->apt install sudo && apt install vim && apt install net-tools && apt install ssh && apt install open-ssh && apt install ufw && apt update (use of sudo, vim, ifconfig, ssh, ufw(firewall), fail2ban(DoS protection))
 4. ->adduser brandon sudo
 5. ->exit (leaving root to user)
 6. ->reboot (so user can be added to sudoers file)
@@ -56,4 +136,22 @@
 9. ->sudo ip a (to see if network interface was applied)
 10.->see (roger-skyline-1 step 8)
 11.->see (roger-skyline-1 step 9)
-12.
+12.->see (roger-skyline-1 step 10)
+13. ssh -p 58342 brandon@192.168.56.3
+14. sudo apt install fail2ban
+15. sudo apt update
+16.->see (roger-skyline-1 step 11)
+17. sudo ping 192.168.56.3 -l 600 -n 100
+18. sudo apt install psad
+19. sudo apt update
+20.->see (roger-skyline-1 step 12)
+21 sudo service --status-all
+22.->see (roger-skyline-1 step 13)
+23. su root
+24. cd root
+25. mkdir scripts
+26. cd scripts
+27. touch update_script.sh
+28.->see (roger-skyline-1 step 14)
+29. touch cron_check.sh
+30.->see (roger-skyline-2 step 15)
