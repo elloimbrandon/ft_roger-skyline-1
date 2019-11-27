@@ -1,27 +1,24 @@
 							**Roger-Skyline-1 Steps**
 1. follow steps to set up debain 9 stretch virtual image ide (https://www.tecmint.com/installation-of-debian-9-minimal-server/)
 2. use debian download in folder for disk image (Desktop/debian versions/debian-9.9.0-amd64-netinst.iso)
-3  set network settings in virtualbox for your machine to Adapter1 to : bridged adapter
-   set Adapter 2 to : NAT
-   (if your in a dif cluster you might need to change to *host only adapter*/ instead of bridged adapter*)
+3  set network settings in virtualbox for your machine to Adapter1 to : NAT
+   set Adapter 2 to : host-only adapter
 4. machine roger1 login: brandon
 5. user password: sports (same for root)
 6. add current user(brandon) to sudo group to use commands outside of root
 7. go to /etc/network/interfaces and add these lines for network interface changes
-	** #NAT Network
+	**
 	   allow-hotplug enp0s8
 	   iface enp0s8 inet static
 	   address 192.168.56.3
 	   netmask 255.255.255.252
 	**
-	(possibly reboot) / *Make sure network adapter2 is active*
 	restart network interface daemon via (sudo service networking restart)
 	bring interface down (sudo ifdown enp0s3, sudo ifdown enp0s8)
 	bring interface up (sudo ifup enp0s3, sudo ifup enp0s8)
-	---if ipv6 doesnt work with ufw stuff switch netmask to ipv4, replace 255.255.255.252 with netmask 24---
-	---then switch /etc/default/ufw file to IPV6=yes---
 8. go to /etc/ssh/sshd_config and unhash as well as changes these lines
-	** Port 58342
+	** 
+	   Port 58342
 	   PermitRootLogin no
 	   PasswordAuthentification yes
 	   PubkeyAuthentication yes
