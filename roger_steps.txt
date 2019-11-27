@@ -58,12 +58,19 @@
 	-sudo exit
 	-sudo reboot (to make absolute sure ufw is running with the set rules)
 	**if you need to delete a rule use (sudo ufw delete RULE)**
-11. since we already installed fail2ban we should be good! if not hard enable it while in *192.168.56.3*
-	-sudo systemctl start fail2ban
-	-sudo systemctl enable fail2ban
-	-sudo fail2ban restart (restart fail2ban if changes were made to config or local files)
-	-*outside server* sudo ping 192.168.56.3 -l 600 -n 100(flood ping server to test it with 100 packets with 600 data)
-	*might need to update rules for web server stuff later in project in /etc/fail2ban jail.local*
+11. since we already installed fail2ban and when you're inside ssh server
+	-cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local (use the basic configuration setup)
+	in /etc/fail2ban/jail.local file change line to allow ssh connections from our ip's
+	**
+	  ignoreip = 127.0.0.1/8 <our ip's> <our ip's>
+	**
+	-sudo systemctl start fail2ban (good measure)
+	-sudo systemctl enable fail2ban (good measure)
+	-sudo service fail2ban restart (restart fail2ban)
+	-sudo /etc/init.d/fail2ban start (start client)
+	-sudo fail2ban-client status (check status of client)
+ 	-sudo tail -f /var/log/fail2ban.log (live check if attempted DOS attack)
+	-sudo cat /var/log/fail2ban.log (check what has been done)
 12. We're going to be using psad(Port Scan Attacks Detector) to detect and or stop port scan attacks
 	***after installed***
 	-(rsyslog configuration(logging)) go to /etc/rsyslog.conf file and add this line
@@ -141,7 +148,7 @@
 14. sudo apt install fail2ban
 15. sudo apt update
 16.->see (roger-skyline-1 step 11)
-17. sudo ping 192.168.56.3 -l 600 -n 100
+17. sudo ping -f 192.168.56.3 -l 600
 18. sudo apt install psad
 19. sudo apt update
 20.->see (roger-skyline-1 step 12)
