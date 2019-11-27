@@ -105,6 +105,7 @@
 	-(use commands for update and reload to restart psad config)
 13. run the command (sudo service --status-all)
 	(we're supposed to stop services not used, but as a debian server setup currently we need all)
+	-acron (time-based job scheduler but it assumes the machine isnt running constantly)
 	-cron (time-based job scheduler)
 	-kmod (kernel modules)
 	-hwclock.sh (hardware clock)
@@ -113,24 +114,50 @@
 	-procps (displays info about users on machine)
 	-dbus (system daemon about current session)
 	-resolvconf (needed for configuring other files ex. networking and interface)
-14. in /root/scripts/update_script.sh paste these lines
+14. in /root/ft_scripts/update_script.sh paste these lines
 	**
-		#!/bin/bash
-		apt update -y >> /var/log/update_script.log
-		apt upgrade -y >> /var/log/update_script.log
+	  #!/bin/bash
+
+	  apt update -y >> /var/log/update_script.log
+      apt upgrade -y >> /var/log/update_script.log
+      echo '-------------------------' >> /var/log/update_script.log
+      date -u >> /var/log/update_script.log
+
 	**
 	(give owner, group, and public to execute script but only the owner can modify the script)
-	-chmod 755 /root/scripts/update_script.sh
-	-chown root /root/scripts/update_script.sh (make root the owner of the script)
+	-chmod 755 /root/ft_scripts/update_script.sh
+	-chown root /root/ft_scripts/update_script.sh (make root the owner of the script)
 	-crontab -e (setting time to execute script)
 	-pick witch file editor you want to use(ex.2) vim.basic
 	(insert these lines into file)
 	**
-		0 4 * * mon root /root/scripts/update_script.sh
-		@reboot root /root/scripts/update_script.sh
+		0 4 * * mon root /root/ft_scripts/update_script.sh
+		@reboot root /root/ft_scripts/update_script.sh
 	**
 	(exit file)
-15.
+	-sudo service cron reload (restart cron service to apply changes)
+15. in /root/ft_scripts/cron_check.sh paste these lines
+	**
+		#!/bin/bash
+		[[-z `find /etc/crontab -mmin -1440`]]
+
+		if [$? -eq 0]
+		then
+			echo "crontab has been modified today" | mail -s "crontab activity" root@roger1
+		else
+			echo "crontab has not been modified today" | mail -s "crontab activity" root@roger1
+		fi
+	**
+	(give owner, group, and public to execute script but only the owner can modify the script)
+	-chmod 755 /root/ft_scripts/cron_check.sh
+	-chown root /root/ft_scripts/cron_check.sh (make root the owner of the script)
+	-crontab -e (setting time to execute script)
+	(insert these lines into file)
+	**
+		0 0 * * * root /root/ft_scripts/crontab_check.sh
+	**
+	(exit file)
+	sudo service cron reload (restart cron service to apply changes)
 
 								**Command Steps**
 1. ->su root
@@ -156,8 +183,8 @@
 22.->see (roger-skyline-1 step 13)
 23. su root
 24. cd root
-25. mkdir scripts
-26. cd scripts
+25. mkdir ft_scripts
+26. cd ft_scripts
 27. touch update_script.sh
 28.->see (roger-skyline-1 step 14)
 29. touch cron_check.sh
