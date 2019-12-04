@@ -1,8 +1,8 @@
 							**Roger-Skyline-1 Steps**
 1. follow steps to set up debain 9 stretch virtual image ide (https://www.tecmint.com/installation-of-debian-9-minimal-server/)
 2. use debian download in folder for disk image (Desktop/debian versions/debian-9.9.0-amd64-netinst.iso)
-3  set network settings in virtualbox for your machine to Adapter1 to : NAT
-   set Adapter 2 to : host-only adapter
+3  set network settings in virtualbox for your machine to Adapter1 to : briged-adapter
+   set Adapter 2 to : NAT
 4. machine roger1 login: brandon
 5. user password: sports (same for root)
 6. add current user(brandon) to sudo group to use commands outside of root
@@ -136,9 +136,9 @@
 15. in /root/ft_scripts/cron_check.sh paste these lines
 	**
 		#!/bin/bash
-		[[-z `find /etc/crontab -mmin -1440`]]
+		[ -z `find /etc/crontab -mmin -1440` ]
 
-		if [$? -eq 0]
+		if [ $? -eq 0 ]
 		then
 			echo "crontab has been modified today" | mail -s "crontab activity" root@roger1
 		else
