@@ -58,4 +58,5 @@ sudo service ssh restart
 - (home directory?) chmod 755/700 brandon
 
 				***launch website with ngix**
-- (used for digitalocean server) ssh root@167.172.112.240 
+- (used for digitalocean server) ssh root@167.172.112.240
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPmqkghNLfCAbtzaQH72w5aHhFO/Na+lsBdt8Sy4VLGwN+MKsW6ALWT4TrA/ZeMy/mDOuXu/T7bLxXYgvOlGn4lh7mcjfTTFq1wKa/GK8nNED2kBn5QXIBOqGUCbMII87s7t8JyroqrbY94dsCd3riGiYh+Za1dT7rxfdL1eGpb+oyw8sGT7iqfP4oY/uM/sbkWt76DjI6TYyA8wwCLhI47kpY577IptcPMJmQEbUDbFSwdGv2i+hde3tnwcQ5rfDuywFxdlSciphcsNh4xc59Apuq0g9LRxotCj/2PZu86Ettuhu6xt21Ra1yDDns87Ynfk7dekYOShZG9/7xA+fR brandon@roger1 
