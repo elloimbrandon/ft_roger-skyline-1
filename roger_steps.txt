@@ -186,3 +186,7 @@
 28.->see (roger-skyline-1 step 14)
 29. touch cron_check.sh
 30.->see (roger-skyline-2 step 15)
+
+**Make sha hash file info**
+- (make sha hash with vdi file) sha1sum roger.vdi > checksum.sha1
+- (check sha hash) echo '<hash code>  roger.vdi' | shasum -c
