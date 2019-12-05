@@ -160,7 +160,7 @@
 1. ->su root
 2. ->apt update && apt upgrade
 3. ->apt install sudo && apt install vim && apt install net-tools && apt install ssh && apt install open-ssh && apt install ufw && apt update (use of sudo, vim, ifconfig, ssh, ufw(firewall), fail2ban(DoS protection))
-4. ->adduser brandon sudo
+4. ->adduser brandon sudo (or usermod -aG sudo brandon)
 5. ->exit (leaving root to user)
 6. ->reboot (so user can be added to sudoers file)
 8. ->see (roger-skyline-1 step 7)
