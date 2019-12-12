@@ -172,7 +172,7 @@
 14. sudo apt install fail2ban
 15. sudo apt update
 16.->see (roger-skyline-1 step 11)
-17. sudo ping -f 192.168.56.3 -l 600
+17. sudo ping 192.168.56.3 -l 600 -f 100
 18. sudo apt install psad
 19. sudo apt update
 20.->see (roger-skyline-1 step 12)
