@@ -39,3 +39,5 @@
 -debian 9 set up 1 (https://www.digitalocean.com/community/tutorials/initial-server-setup-with-debian-9)
 -debian 9 server set up 2 (https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-debian-9)
 -possible script options for daily use (https://codereview.stackexchange.com/questions/146896/simple-linux-upgrade-script-in-bash)
+
+
