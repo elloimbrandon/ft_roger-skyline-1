@@ -4,7 +4,7 @@
 3  set network settings in virtualbox for your machine to Adapter1 to : briged-adapter
    set Adapter 2 to : NAT
 4. machine roger1 login: brandon
-5. user password: sports (same for root)
+5. user password: (same for root)
 6. add current user(brandon) to sudo group to use commands outside of root
 7. go to /etc/network/interfaces and add these lines for network interface changes
 	**
